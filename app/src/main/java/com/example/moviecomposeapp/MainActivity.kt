@@ -12,7 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.moviecomposeapp.core.domain.repository.MovieRepository
+import com.example.moviecomposeapp.home.presentation.HomeMovieScreen
 import com.example.moviecomposeapp.ui.theme.MovieComposeAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,9 +24,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var repository: MovieRepository
 
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,27 +35,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
-
-                    lifecycleScope.launch {
-                        val movies = repository.getUpcomingMovies()
-                        println()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "HOME") {
+                        composable("HOME"){
+                            HomeMovieScreen()
+                        }
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MovieComposeAppTheme {
-        Greeting("Android")
     }
 }

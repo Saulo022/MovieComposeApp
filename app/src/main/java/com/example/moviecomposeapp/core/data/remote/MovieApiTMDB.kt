@@ -8,6 +8,6 @@ interface MovieApiTMDB {
         const val BASE_URL = "https://api.themoviedb.org/3/"
     }
 
-    @GET("/movie/upcoming")
+    @GET("movie/upcoming")
     suspend fun getUpcomingMovies(): MovieResponse
 }

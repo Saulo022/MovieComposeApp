@@ -6,7 +6,12 @@ import com.example.moviecomposeapp.core.domain.model.Movie
 import com.example.moviecomposeapp.core.domain.repository.MovieRepository
 
 class MovieRepositoryImpl(val api: MovieApiTMDB): MovieRepository {
-    override suspend fun getUpcomingMovies(): List<Movie> {
-        return api.getUpcomingMovies().results.map { it.toDomain() }
+    override suspend fun getUpcomingMovies(): Result<List<Movie>> {
+        return try {
+            val results = api.getUpcomingMovies().results
+            Result.success(results.map { it.toDomain() })
+        } catch (e: Exception){
+            Result.failure(e)
+        }
     }
 }
