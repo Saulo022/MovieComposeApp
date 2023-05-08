@@ -1,6 +1,7 @@
 package com.example.moviecomposeapp.core.domain.model
 
 data class Movie(
+   val id: Int,
    val description: String,
    val title: String,
    val releaseYear: Int,

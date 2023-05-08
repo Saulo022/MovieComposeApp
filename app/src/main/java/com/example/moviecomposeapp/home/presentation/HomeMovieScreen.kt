@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.moviecomposeapp.R
+import com.example.moviecomposeapp.home.presentation.components.HomeMovieHeader
 import com.example.moviecomposeapp.home.presentation.components.HomeMovieList
 
 @Composable
@@ -27,23 +28,21 @@ fun HomeMovieScreen(viewModel: HomeMovieViewModel = hiltViewModel()) {
             .padding(start = 25.dp)
     ) {
         item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(90.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo_marca),
-                    contentDescription = "eMovie"
-                )
-            }
+            HomeMovieHeader()
         }
-        if (state.upcoming.isNotEmpty()) {
+        if (state.upcomingMovies.isNotEmpty()) {
             item {
                 HomeMovieList(
                     title = "Proximos Estrenos",
-                    posters = state.upcoming.map { it.poster })
+                    posters = state.upcomingMovies.map { it.poster })
+            }
+        }
+        item { Spacer(modifier = Modifier.height(26.dp)) }
+        if (state.popularMovies.isNotEmpty()) {
+            item {
+                HomeMovieList(
+                    title = "Tendencia",
+                    posters = state.popularMovies.map { it.poster })
             }
         }
     }

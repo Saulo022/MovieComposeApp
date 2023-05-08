@@ -11,4 +11,7 @@ interface MovieApiTMDB {
 
     @GET("movie/upcoming")
     suspend fun getUpcomingMovies(): MovieResponse
+
+    @GET("movie/popular")
+    suspend fun getPopularMovies(): MovieResponse
 }
