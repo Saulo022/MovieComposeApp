@@ -16,8 +16,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.moviecomposeapp.R
+import com.example.moviecomposeapp.home.presentation.components.CategoryTitle
 import com.example.moviecomposeapp.home.presentation.components.HomeMovieHeader
 import com.example.moviecomposeapp.home.presentation.components.HomeMovieList
+import com.example.moviecomposeapp.home.presentation.components.HomeRecommended
 
 @Composable
 fun HomeMovieScreen(viewModel: HomeMovieViewModel = hiltViewModel()) {
@@ -43,6 +45,16 @@ fun HomeMovieScreen(viewModel: HomeMovieViewModel = hiltViewModel()) {
                 HomeMovieList(
                     title = "Tendencia",
                     posters = state.popularMovies.map { it.poster })
+            }
+        }
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+        item {
+            HomeRecommended(
+                selectedFilter = state.selectedFilter,
+                onFilterClick = { viewModel.onEvent(HomeEvent.ChangeFilter(it))},
+                movieList = state.filteredMovies
+            ) {
+
             }
         }
     }
