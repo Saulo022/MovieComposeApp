@@ -24,20 +24,24 @@ class HomeMovieViewModel @Inject constructor(private val repository: MovieReposi
             supervisorScope {
                 val upcoming = launch { getUpcomingMovies() }
                 val popular = launch { getPopularMovies() }
-                listOf(upcoming,popular).forEach { it.join() }
-                state= state.copy(isLoading = false)
+                val filtered = launch { getMoviesByFilter() }
+                listOf(upcoming, popular, filtered).forEach { it.join() }
+                state = state.copy(isLoading = false)
             }
         }
     }
 
-    fun onEvent(event: HomeEvent){
-        when(event) {
+    fun onEvent(event: HomeEvent) {
+        when (event) {
             is HomeEvent.ChangeFilter -> {
-                if (event.filterType != state.selectedFilter){
+                if (event.filterType != state.selectedFilter) {
                     state = state.copy(selectedFilter = event.filterType)
+                    viewModelScope.launch {
+                        getMoviesByFilter()
+                    }
                 }
             }
-            is HomeEvent.onMovieClick -> TODO()
+            is HomeEvent.OnMovieClick -> TODO()
         }
     }
 
@@ -59,5 +63,16 @@ class HomeMovieViewModel @Inject constructor(private val repository: MovieReposi
         }.onFailure {
             println()
         }
+    }
+
+    private suspend fun getMoviesByFilter() {
+        val result = when (state.selectedFilter) {
+            FilterType.SPANISH -> repository.getMoviesByLanguage("es")
+            FilterType.NINETY_THREE -> repository.getMoviesByYear(1993)
+        }
+
+        result.onSuccess {
+            state = state.copy(filteredMovies = it)
+        }.onFailure { println() }
     }
 }

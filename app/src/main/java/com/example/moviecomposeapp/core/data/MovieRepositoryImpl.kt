@@ -12,9 +12,18 @@ class MovieRepositoryImpl(private val api: MovieApiTMDB): MovieRepository {
         results.map { it.toDomain() }
     }
 
-
-    override suspend fun getPopularMovies()= resultOf {
+    override suspend fun getPopularMovies() = resultOf {
         val results = api.getPopularMovies().results
+        results.map { it.toDomain() }
+    }
+
+    override suspend fun getMoviesByYear(year: Int) = resultOf {
+        val results = api.getMoviesByYear(year = year).results
+        results.map { it.toDomain() }
+    }
+
+    override suspend fun getMoviesByLanguage(language: String) = resultOf {
+        val results = api.getMoviesByLanguage(language = language).results
         results.map { it.toDomain() }
     }
 }

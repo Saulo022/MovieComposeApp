@@ -2,6 +2,7 @@ package com.example.moviecomposeapp.core.data.remote
 
 import com.example.moviecomposeapp.core.data.remote.response.MovieResponse
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface MovieApiTMDB {
     companion object{
@@ -14,4 +15,9 @@ interface MovieApiTMDB {
 
     @GET("movie/popular")
     suspend fun getPopularMovies(): MovieResponse
+    @GET("discover/movie?sort_by=popularity.desc&include_adult=false")
+    suspend fun getMoviesByYear(@Query("year") year: Int): MovieResponse
+
+    @GET("discover/movie?sort_by=popularity.desc&include_adult=false")
+    suspend fun getMoviesByLanguage(@Query("with_original_language") language: String): MovieResponse
 }
