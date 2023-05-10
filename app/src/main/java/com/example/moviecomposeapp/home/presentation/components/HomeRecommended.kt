@@ -15,19 +15,15 @@ import com.example.moviecomposeapp.home.presentation.FilterType
 fun HomeRecommended(
     selectedFilter: FilterType,
     onFilterClick: (FilterType) -> Unit,
-    movieList: List<Movie>,
-    modifier: Modifier = Modifier,
-    onMovieClick: (Movie) -> Unit
+    modifier: Modifier = Modifier
 ) {
-    if (movieList.isNotEmpty()) {
-        Column(modifier = modifier.fillMaxWidth()) {
-            CategoryTitle(title = "Recomendados para ti")
-            Spacer(modifier = Modifier.height(12.dp))
-            FilterPillContainer(
-                filters = FilterType.values().toList(),
-                selectedFilter = selectedFilter,
-                onFilterClick = onFilterClick
-            )
-        }
+    Column(modifier = modifier.fillMaxWidth()) {
+        CategoryTitle(title = "Recomendados para ti")
+        Spacer(modifier = Modifier.height(12.dp))
+        FilterPillContainer(
+            filters = FilterType.values().toList(),
+            selectedFilter = selectedFilter,
+            onFilterClick = onFilterClick
+        )
     }
 }

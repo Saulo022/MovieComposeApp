@@ -72,7 +72,7 @@ class HomeMovieViewModel @Inject constructor(private val repository: MovieReposi
         }
 
         result.onSuccess {
-            state = state.copy(filteredMovies = it)
+            state = state.copy(filteredMovies = it.subList(0,6))
         }.onFailure { println() }
     }
 }
