@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviecomposeapp.core.domain.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
@@ -46,22 +47,18 @@ class HomeMovieViewModel @Inject constructor(private val repository: MovieReposi
     }
 
     private suspend fun getPopularMovies() {
-        repository.getPopularMovies().onSuccess {
+        repository.getPopularMovies().collect {
             state = state.copy(
                 popularMovies = it
             )
-        }.onFailure {
-            println()
         }
     }
 
     private suspend fun getUpcomingMovies() {
-        repository.getUpcomingMovies().onSuccess {
+        repository.getUpcomingMovies().collect {
             state = state.copy(
                 upcomingMovies = it
             )
-        }.onFailure {
-            println()
         }
     }
 
@@ -70,9 +67,12 @@ class HomeMovieViewModel @Inject constructor(private val repository: MovieReposi
             FilterType.SPANISH -> repository.getMoviesByLanguage("es")
             FilterType.NINETY_THREE -> repository.getMoviesByYear(1993)
         }
-
-        result.onSuccess {
-            state = state.copy(filteredMovies = it.subList(0,6))
-        }.onFailure { println() }
+        result.collect {
+            if (it.isNotEmpty()){
+                state = state.copy(
+                    filteredMovies = it.subList(0, 6)
+                )
+            }
+        }
     }
 }

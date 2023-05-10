@@ -1,6 +1,10 @@
 package com.example.moviecomposeapp.core.di
 
+import android.app.Application
+import androidx.room.Room
 import com.example.moviecomposeapp.core.data.MovieRepositoryImpl
+import com.example.moviecomposeapp.core.data.local.MovieDao
+import com.example.moviecomposeapp.core.data.local.MovieDatabase
 import com.example.moviecomposeapp.core.data.remote.MovieApiTMDB
 import com.example.moviecomposeapp.core.data.remote.interceptor.ApiKeyInterceptor
 import com.example.moviecomposeapp.core.domain.repository.MovieRepository
@@ -33,8 +37,20 @@ object CoreModule {
 
     @Singleton
     @Provides
-    fun provideRepository(api: MovieApiTMDB): MovieRepository {
-        return MovieRepositoryImpl(api)
+    fun provideDatabase(application: Application): MovieDatabase {
+        return Room.databaseBuilder(application, MovieDatabase::class.java, "movies_db").build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideDatabaseDao(database: MovieDatabase): MovieDao {
+        return database.dao
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepository(api: MovieApiTMDB, dao: MovieDao): MovieRepository {
+        return MovieRepositoryImpl(api, dao)
     }
 }
 
