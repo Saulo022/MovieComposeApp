@@ -1,5 +1,6 @@
 package com.example.moviecomposeapp.home.presentation
 
+import com.example.moviecomposeapp.core.domain.model.FilterType
 import com.example.moviecomposeapp.core.domain.model.Movie
 
 data class HomeMovieState(

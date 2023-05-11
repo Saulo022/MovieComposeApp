@@ -2,7 +2,6 @@ package com.example.moviecomposeapp.core.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.moviecomposeapp.core.domain.model.MovieType
 
 @Entity
 data class MovieEntity(
@@ -11,4 +10,10 @@ data class MovieEntity(
     val poster: String,
     val type: MovieType
 )
+enum class MovieType {
+    UPCOMING,
+    TRENDING,
+    SPANISH,
+    NINETY_THREE
+}
 

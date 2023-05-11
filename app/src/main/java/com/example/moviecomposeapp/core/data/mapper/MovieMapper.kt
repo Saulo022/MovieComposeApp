@@ -1,10 +1,10 @@
 package com.example.moviecomposeapp.core.data.mapper
 
 import com.example.moviecomposeapp.core.data.local.entity.MovieEntity
+import com.example.moviecomposeapp.core.data.local.entity.MovieType
 import com.example.moviecomposeapp.core.data.remote.MovieApiTMDB
 import com.example.moviecomposeapp.core.data.remote.response.MovieResult
 import com.example.moviecomposeapp.core.domain.model.Movie
-import com.example.moviecomposeapp.core.domain.model.MovieType
 
 fun MovieResult.toDomain(): Movie {
     return Movie(

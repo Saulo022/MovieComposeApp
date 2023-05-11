@@ -7,12 +7,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.moviecomposeapp.home.presentation.FilterType
+import com.example.moviecomposeapp.core.domain.model.FilterType
 
 @Composable
 fun FilterPillContainer(
     filters: List<FilterType>,
-    selectedFilter:FilterType,
+    selectedFilter: FilterType,
     modifier: Modifier = Modifier,
     onFilterClick: (FilterType) -> Unit
 ) {

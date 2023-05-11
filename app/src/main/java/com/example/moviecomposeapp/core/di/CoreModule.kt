@@ -8,6 +8,7 @@ import com.example.moviecomposeapp.core.data.local.MovieDatabase
 import com.example.moviecomposeapp.core.data.remote.MovieApiTMDB
 import com.example.moviecomposeapp.core.data.remote.interceptor.ApiKeyInterceptor
 import com.example.moviecomposeapp.core.domain.repository.MovieRepository
+import com.example.moviecomposeapp.core.domain.usecase.ReduceFilteredMovies
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,7 +51,7 @@ object CoreModule {
     @Singleton
     @Provides
     fun provideRepository(api: MovieApiTMDB, dao: MovieDao): MovieRepository {
-        return MovieRepositoryImpl(api, dao)
+        return MovieRepositoryImpl(api, dao, ReduceFilteredMovies())
     }
 }
 

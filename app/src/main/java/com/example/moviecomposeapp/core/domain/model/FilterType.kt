@@ -1,4 +1,4 @@
-package com.example.moviecomposeapp.home.presentation
+package com.example.moviecomposeapp.core.domain.model
 
 enum class FilterType(val text: String) {
     SPANISH("En español"),
