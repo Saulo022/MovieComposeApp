@@ -20,12 +20,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.moviecomposeapp.R
+import com.example.moviecomposeapp.core.domain.model.Movie
 import com.example.moviecomposeapp.home.presentation.components.*
 
 const val COLUMNS_IN_GRID = 2
 
 @Composable
-fun HomeMovieScreen(viewModel: HomeMovieViewModel = hiltViewModel()) {
+fun HomeMovieScreen(
+    onMovieClick: (Movie) -> Unit,
+    viewModel: HomeMovieViewModel = hiltViewModel()
+) {
     val state = viewModel.state
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -43,7 +47,9 @@ fun HomeMovieScreen(viewModel: HomeMovieViewModel = hiltViewModel()) {
             item(span = { GridItemSpan(COLUMNS_IN_GRID) }) {
                 HomeMovieList(
                     title = "Proximos Estrenos",
-                    posters = state.upcomingMovies.map { it.poster })
+                    movies = state.upcomingMovies) {
+                    onMovieClick(it)
+                }
             }
         }
 
@@ -51,11 +57,13 @@ fun HomeMovieScreen(viewModel: HomeMovieViewModel = hiltViewModel()) {
             item(span = { GridItemSpan(COLUMNS_IN_GRID) }) {
                 HomeMovieList(
                     title = "Tendencia",
-                    posters = state.popularMovies.map { it.poster })
+                    movies = state.popularMovies) {
+                    onMovieClick(it)
+                }
             }
         }
 
-        if (state.filteredMovies.isNotEmpty()){
+        if (state.filteredMovies.isNotEmpty()) {
             item(span = { GridItemSpan(COLUMNS_IN_GRID) }) {
                 HomeRecommended(
                     selectedFilter = state.selectedFilter,
@@ -64,7 +72,9 @@ fun HomeMovieScreen(viewModel: HomeMovieViewModel = hiltViewModel()) {
         }
 
         items(state.filteredMovies) {
-            HomeMoviePoster(it.poster, MoviePosterSize.BIG)
+            HomeMoviePoster(it.poster, MoviePosterSize.BIG) {
+                onMovieClick(it)
+            }
         }
     }
 

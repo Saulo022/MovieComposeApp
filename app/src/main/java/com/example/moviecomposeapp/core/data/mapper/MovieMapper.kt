@@ -12,7 +12,6 @@ fun MovieResult.toDomain(): Movie {
         poster = MovieApiTMDB.IMAGE_URL + this.posterPath
     )
 }
-
 fun Movie.toEntity(type: MovieType): MovieEntity {
     return MovieEntity(
         id = this.id,

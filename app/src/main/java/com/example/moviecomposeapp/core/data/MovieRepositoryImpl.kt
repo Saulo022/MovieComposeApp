@@ -9,6 +9,7 @@ import com.example.moviecomposeapp.core.data.remote.MovieApiTMDB
 import com.example.moviecomposeapp.core.data.remote.extensions.resultOf
 import com.example.moviecomposeapp.core.domain.model.FilterType
 import com.example.moviecomposeapp.core.domain.model.Movie
+import com.example.moviecomposeapp.core.domain.model.MovieDetail
 import com.example.moviecomposeapp.core.domain.model.MovieList
 import com.example.moviecomposeapp.core.domain.repository.MovieRepository
 import com.example.moviecomposeapp.core.domain.usecase.ReduceFilteredMovies
@@ -47,6 +48,10 @@ class MovieRepositoryImpl(
                 }.onFailure { println() }
             }
         }
+    }
+
+    override suspend fun getMovieById(id: Int): Result<MovieDetail> = resultOf {
+        api.getMovieById(id).toDomain()
     }
 
     private suspend fun saveMoviesLocally(movies: List<Movie>, movieType: MovieType) {

@@ -16,9 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.moviecomposeapp.core.domain.model.Movie
 
 @Composable
-fun HomeMovieList(title: String, posters: List<String>, modifier: Modifier = Modifier) {
+fun HomeMovieList(
+    title: String,
+    movies: List<Movie>,
+    modifier: Modifier = Modifier,
+    onMovieClick: (Movie) -> Unit
+) {
     Column(modifier = modifier) {
         CategoryTitle(title)
         Spacer(modifier = Modifier.height(20.dp))
@@ -26,8 +32,10 @@ fun HomeMovieList(title: String, posters: List<String>, modifier: Modifier = Mod
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(posters) {
-                HomeMoviePoster(it, MoviePosterSize.SMALL)
+            items(movies) {
+                HomeMoviePoster(it.poster, MoviePosterSize.SMALL) {
+                    onMovieClick(it)
+                }
             }
         }
     }

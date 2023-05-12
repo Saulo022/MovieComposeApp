@@ -45,7 +45,6 @@ class HomeMovieViewModel @Inject constructor(private val repository: MovieReposi
                     }
                 }
             }
-            is HomeEvent.OnMovieClick -> TODO()
         }
     }
 

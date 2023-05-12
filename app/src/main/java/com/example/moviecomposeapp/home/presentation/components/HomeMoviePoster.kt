@@ -1,5 +1,6 @@
 package com.example.moviecomposeapp.home.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -11,11 +12,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
+import com.example.moviecomposeapp.core.domain.model.Movie
 
 @Composable
 fun HomeMoviePoster(
     imageUrl: String,
-    posterSize: MoviePosterSize
+    posterSize: MoviePosterSize,
+    onMovieClick: () -> Unit
 ) {
     val height = if (posterSize == MoviePosterSize.SMALL) 180 else 205
     val width = if (posterSize == MoviePosterSize.SMALL) 138 else 156
@@ -27,7 +30,10 @@ fun HomeMoviePoster(
         contentDescription = "poster",
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
-            .size(width = (width).dp, height = (height).dp),
+            .size(width = (width).dp, height = (height).dp)
+            .clickable {
+                onMovieClick()
+            },
         contentScale = ContentScale.Crop
     )
 }

@@ -14,10 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.moviecomposeapp.core.domain.repository.MovieRepository
+import com.example.moviecomposeapp.detail.presentation.DetailMovieScreen
 import com.example.moviecomposeapp.home.presentation.HomeMovieScreen
 import com.example.moviecomposeapp.ui.theme.MovieComposeAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,8 +29,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -41,7 +42,20 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "HOME") {
                         composable("HOME"){
-                            HomeMovieScreen()
+                            HomeMovieScreen(onMovieClick = {
+                                navController.navigate("DETAIL/${it.id}")
+                            })
+                        }
+                        composable(
+                            "DETAIL/{movie_id}",
+                            arguments = listOf(
+                            navArgument("movie_id") {
+                                type = NavType.IntType
+                            }
+                        )) {
+                            DetailMovieScreen(onBack = {
+                                navController.popBackStack()
+                            })
                         }
                     }
                 }
